@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User table — stores registered accounts
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  password     String
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tasks Task[]
+}
+
+// Task table — SQLite doesn't support enums so we use String
+// Valid status values: "PENDING", "IN_PROGRESS", "COMPLETED"
+// Valid priority values: "LOW", "MEDIUM", "HIGH"
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  status      String    @default("PENDING")
+  priority    String    @default("MEDIUM")
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
