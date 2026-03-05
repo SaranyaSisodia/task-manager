@@ -14,7 +14,11 @@ const PORT = process.env.PORT || 5000;
 // ─── Global Middleware ────────────────────────────────────────────────────────
 app.use(helmet());                         // Security headers
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://task-manager-seven-omega-38.vercel.app',
+    process.env.FRONTEND_URL || 'http://localhost:3000',
+  ],
   credentials: true,
 }));
 app.use(express.json());                   // Parse JSON request bodies
