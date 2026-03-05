@@ -71,7 +71,7 @@ export default function DashboardPage() {
   }) => {
     if (!editingTask) return;
     try {
-      await updateTask(editingTask.id, data);
+      await updateTask(editingTask.id, data as Partial<Task>);
       setEditingTask(null);
     } catch {
       toast.error('Failed to update task');
